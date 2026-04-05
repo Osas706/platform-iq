@@ -1,10 +1,15 @@
 import express, { type Request, type Response } from "express";
+import cors from "cors";
 import { ENV } from "./lib/env.ts";
-// import path from "path";
 import { connectDB } from "./lib/db.ts";
-import console from "console";
+import { serve } from "inngest/express";
+import { functions, inngest } from "./lib/inngest.ts";
 
 const app = express();
+
+// middlewares
+app.use(express.json());
+app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
 
 // make app ready for deployment
 // const __dirname = path.resolve();
@@ -16,10 +21,11 @@ const app = express();
 //   });
 // };
 
-app.get("/health", (req: Request, res: Response) => {
-  res.status(200).json({message: "Sucesss, Api running"})
-});
+app.use("/api/inngest", serve({client: inngest, functions: functions}))
 
+app.get("/health", (req: Request, res: Response) => {
+  res.status(200).json({ message: "Sucesss, Api running" });
+});
 
 const startServer = async () => {
   try {
@@ -28,8 +34,8 @@ const startServer = async () => {
       console.log(`Server running on http://localhost:${ENV.PORT}`);
     });
   } catch (error) {
-    console.error("Error starting server", error)
-  };
+    console.error("Error starting server", error);
+  }
 };
 
 startServer();
