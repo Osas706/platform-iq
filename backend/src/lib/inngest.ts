@@ -16,7 +16,7 @@ export const syncUser = inngest.createFunction(
     const newUser = {
       clerkId: id,
       email: email_addresses[0]?.email_address,
-      name: `${first_name || ""} ${last_name} || ""`,
+      name: `${first_name || ""} ${last_name || ""}`,
       profileImage: image_url
     };
 
@@ -28,7 +28,7 @@ export const syncUser = inngest.createFunction(
 
 //
 export const deleteUser = inngest.createFunction(
-  {id: "delete-user-from-db", triggers: [{ event: "clerk/user.delected" }]},
+  {id: "delete-user-from-db", triggers: [{ event: "clerk/user.deleted" }]},
   // {event: "clerk/user.delected" as const},
   async ({ event } : { event: any }) => {
     await connectDB();
