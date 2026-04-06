@@ -1,6 +1,7 @@
 import { Inngest } from "inngest";
 import { connectDB } from "./db.ts";
 import User from "../models/User.ts";
+import { deleteStreamUser, upsertStreamUser } from "./stream.ts";
 
 export const inngest = new Inngest({ id: "platform-iq"});
 
@@ -22,7 +23,12 @@ export const syncUser = inngest.createFunction(
 
     await User.create(newUser)
 
-    // todo: coming soon
+
+    await upsertStreamUser({
+      id: newUser.clerkId.toString(),
+      name: newUser.name,
+      image: newUser.profileImage
+    })
   }
 );
 
@@ -37,7 +43,7 @@ export const deleteUser = inngest.createFunction(
 
     await User.deleteOne({clerkId: id})
 
-    // todo: coming soon
+    await deleteStreamUser( id.toString())
   }
 );
 
