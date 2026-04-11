@@ -17,44 +17,12 @@ export const upsertStreamUser = async (userData: any) => {
       throw new Error("User ID is required");
     }
 
-    // 1. Generate token
-    await chatClient.createToken(userData?.id);
-
     await chatClient.upsertUser(userData);
     console.log("Stream user deleted successfully", userData);
   } catch (error) {
     console.error("Error upserting Stream user", error);
   }
 }
-
-// export const upsertStreamUser = async (userData: any) => {
-//   try {
-//     if (!userData?.id) {
-//       throw new Error("User ID is required");
-//     }
-
-//     // 1. Generate token (NO await needed, it's sync)
-//     const token = chatClient.createToken(userData.id);
-
-//     // 2. Upsert user (use plural version)
-//     await chatClient.upsertUsers([
-//       {
-//         id: userData.id,
-//         name: userData.name,
-//         image: userData.image,
-//         ...userData,
-//       },
-//     ]);
-
-//     console.log("✅ Stream user upserted successfully", userData);
-
-//     // 3. Return token (important)
-//     return { token };
-//   } catch (error) {
-//     console.error("❌ Error upserting Stream user", error);
-//     throw error;
-//   }
-// };
 
 // deleteStreamUser
 export const deleteStreamUser = async (userId: string) => {

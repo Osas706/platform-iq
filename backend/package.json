@@ -19,7 +19,7 @@
     "inngest": "^4.1.2",
     "mongoose": "^9.3.3",
     "nodemon": "^3.1.14",
-    "stream-chat": "^9.40.0"
+    "stream-chat": "^9.24.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
