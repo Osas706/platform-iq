@@ -17,8 +17,13 @@ export const upsertStreamUser = async (userData: any) => {
       throw new Error("User ID is required");
     }
 
-    await chatClient.upsertUser(userData);
-    console.log("Stream user deleted successfully", userData);
+    await chatClient.upsertUser({
+      id: userData.id,
+      name: userData.name,
+      image: userData.image,
+      ...userData,
+    });
+    console.log("Stream user created successfully", userData);
   } catch (error) {
     console.error("Error upserting Stream user", error);
   }
