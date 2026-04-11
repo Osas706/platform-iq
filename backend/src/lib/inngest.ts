@@ -32,43 +32,7 @@ export const syncUser = inngest.createFunction(
   }
 );
 
-// export const syncUser = inngest.createFunction(
-//   { id: "sync-user", triggers: [{ event: "clerk/user.created" }]},
-//   async ({ event }: { event: any }) => {
-//     await connectDB();
-
-//     const {
-//       id,
-//       email_addresses,
-//       first_name,
-//       last_name,
-//       image_url,
-//     } = event.data;
-
-//     const newUser = {
-//       clerkId: id,
-//       email: email_addresses?.[0]?.email_address,
-//       name: `${first_name || ""} ${last_name || ""}`.trim(),
-//       profileImage: image_url,
-//     };
-
-//     // ✅ Avoid duplicate users (important)
-//     const existingUser = await User.findOne({ clerkId: id });
-
-//     if (!existingUser) {
-//       await User.create(newUser);
-//     }
-
-//     // ✅ Sync with Stream
-//     await upsertStreamUser({
-//       id: id.toString(),
-//       name: newUser.name,
-//       image: newUser.profileImage,
-//     });
-//   }
-// );
-
-//
+// deleteUser
 export const deleteUser = inngest.createFunction(
   {id: "delete-user-from-db", triggers: [{ event: "clerk/user.deleted" }]},
   // {event: "clerk/user.delected" as const},
