@@ -1,4 +1,4 @@
-import { Inngest } from "inngest";
+import { Inngest, type InngestFunction } from "inngest";
 import { connectDB } from "./db.ts";
 import User from "../models/User.ts";
 import { deleteStreamUser, upsertStreamUser } from "./stream.ts";
@@ -6,7 +6,7 @@ import { deleteStreamUser, upsertStreamUser } from "./stream.ts";
 export const inngest = new Inngest({ id: "platform-iq"});
 
 // sync user func
-export const syncUser = inngest.createFunction(
+export const syncUser: InngestFunction.Any = inngest.createFunction(
   {id: "sync-user", triggers: [{ event: "clerk/user.created" }]},
   // {event: "clerk/user.created" as const},
   async ({ event } : { event: any }) => {
@@ -33,7 +33,7 @@ export const syncUser = inngest.createFunction(
 );
 
 // deleteUser
-export const deleteUser = inngest.createFunction(
+export const deleteUser: InngestFunction.Any = inngest.createFunction(
   {id: "delete-user-from-db", triggers: [{ event: "clerk/user.deleted" }]},
   // {event: "clerk/user.delected" as const},
   async ({ event } : { event: any }) => {
