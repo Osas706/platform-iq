@@ -39,10 +39,10 @@
     "jsx": "react-jsx",
     // "verbatimModuleSyntax": true,
     "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-    "rewriteRelativeImportExtensions":true,
+    "allowJs": true,
+    "emitDeclarationOnly": true,
     "allowImportingTsExtensions": true,
   }
 }
