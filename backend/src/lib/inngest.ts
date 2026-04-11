@@ -6,71 +6,71 @@ import { deleteStreamUser, upsertStreamUser } from "./stream.ts";
 export const inngest = new Inngest({ id: "platform-iq"});
 
 // sync user func
-// export const syncUser = inngest.createFunction(
-//   {id: "sync-user", triggers: [{ event: "clerk/user.created" }]},
-//   // {event: "clerk/user.created" as const},
-//   async ({ event } : { event: any }) => {
-//     await connectDB();
-    
-//     const {id, email_addresses, first_name, last_name, image_url} = event.data;
-
-//     const newUser = {
-//       clerkId: id,
-//       email: email_addresses[0]?.email_address,
-//       name: `${first_name || ""} ${last_name || ""}`,
-//       profileImage: image_url
-//     };
-
-//     await User.create(newUser)
-
-
-//     await upsertStreamUser({
-//       id: newUser?.clerkId?.toString(),
-//       name: newUser.name,
-//       image: newUser.profileImage
-//     })
-//   }
-// );
-
 export const syncUser = inngest.createFunction(
-  { id: "sync-user", triggers: [{ event: "clerk/user.created" }]},
-  async ({ event }: { event: any }) => {
+  {id: "sync-user", triggers: [{ event: "clerk/user.created" }]},
+  // {event: "clerk/user.created" as const},
+  async ({ event } : { event: any }) => {
     await connectDB();
-
-    const {
-      id,
-      email_addresses,
-      first_name,
-      last_name,
-      image_url,
-    } = event.data;
+    
+    const {id, email_addresses, first_name, last_name, image_url} = event.data;
 
     const newUser = {
       clerkId: id,
-      email: email_addresses?.[0]?.email_address,
-      name: `${first_name || ""} ${last_name || ""}`.trim(),
-      profileImage: image_url,
+      email: email_addresses[0]?.email_address,
+      name: `${first_name || ""} ${last_name || ""}`,
+      profileImage: image_url
     };
 
-    // ✅ Avoid duplicate users (important)
-    const existingUser = await User.findOne({ clerkId: id });
+    await User.create(newUser)
 
-    if (!existingUser) {
-      await User.create(newUser);
-    }
 
-    // ✅ Sync with Stream
     await upsertStreamUser({
-      id: id.toString(),
+      id: newUser?.clerkId?.toString(),
       name: newUser.name,
-      image: newUser.profileImage,
-    });
+      image: newUser.profileImage
+    })
   }
 );
 
+// export const syncUser = inngest.createFunction(
+//   { id: "sync-user", triggers: [{ event: "clerk/user.created" }]},
+//   async ({ event }: { event: any }) => {
+//     await connectDB();
+
+//     const {
+//       id,
+//       email_addresses,
+//       first_name,
+//       last_name,
+//       image_url,
+//     } = event.data;
+
+//     const newUser = {
+//       clerkId: id,
+//       email: email_addresses?.[0]?.email_address,
+//       name: `${first_name || ""} ${last_name || ""}`.trim(),
+//       profileImage: image_url,
+//     };
+
+//     // ✅ Avoid duplicate users (important)
+//     const existingUser = await User.findOne({ clerkId: id });
+
+//     if (!existingUser) {
+//       await User.create(newUser);
+//     }
+
+//     // ✅ Sync with Stream
+//     await upsertStreamUser({
+//       id: id.toString(),
+//       name: newUser.name,
+//       image: newUser.profileImage,
+//     });
+//   }
+// );
+
 //
 export const deleteUser = inngest.createFunction(
-  {id: "delete-user-from-db-v2", triggers: [{ event: "clerk/user.deleted" }]},
+  {id: "delete-user-from-db", triggers: [{ event: "clerk/user.deleted" }]},
   // {event: "clerk/user.delected" as const},
   async ({ event } : { event: any }) => {
     await connectDB();
