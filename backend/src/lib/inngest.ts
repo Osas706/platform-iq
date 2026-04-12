@@ -1,7 +1,7 @@
 import { Inngest, type InngestFunction } from "inngest";
-import { connectDB } from "./db.js";
-import User from "../models/User.js";
-import { deleteStreamUser, upsertStreamUser } from "./stream.js";
+import { connectDB } from "./db";
+import User from "../models/User";
+import { deleteStreamUser, upsertStreamUser } from "./stream";
 
 export const inngest = new Inngest({ id: "platform-iq"});
 
