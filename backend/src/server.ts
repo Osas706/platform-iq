@@ -1,15 +1,18 @@
 import express, { type Request, type Response } from "express";
 import cors from "cors";
-import { ENV } from "./lib/env.js";
-import { connectDB } from "./lib/db.js";
+import { ENV } from "./lib/env";
+import { connectDB } from "./lib/db";
 import { serve } from "inngest/express";
-import { functions, inngest } from "./lib/inngest.js";
+import { functions, inngest } from "./lib/inngest";
+import { clerkMiddleware } from "@clerk/express";
+import { protectRoute } from "./middlewares/protectRoute";
 
 const app = express();
 
 // middlewares
 app.use(express.json());
 app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
+app.use(clerkMiddleware()); // this adds auth field to request object i.e req.auth
 
 // make app ready for deployment
 // const __dirname = path.resolve();
@@ -23,7 +26,7 @@ app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
 
 app.use("/api/inngest", serve({client: inngest, functions: functions}))
 
-app.get("/health", (req: Request, res: Response) => {
+app.get("/health", protectRoute, (req: Request, res: Response) => {
   res.status(200).json({ message: "Sucesss, Api running" });
 });
 

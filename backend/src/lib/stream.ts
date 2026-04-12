@@ -1,6 +1,6 @@
 import { StreamChat } from "stream-chat";
 import type { UserResponse } from "stream-chat";
-import { ENV } from "./env.js";
+import { ENV } from "./env";
 
 const apiKey = ENV.STREAM_API_KEY;
 const apiSecret = ENV.STREAM_API_SECRET;

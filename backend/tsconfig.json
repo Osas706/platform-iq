@@ -1,9 +1,15 @@
 {
   // Visit https://aka.ms/tsconfig to read more about this file
+  "ts-node": {
+    "files": true
+  },
   "compilerOptions": {
     // File Layout
-    "module": "NodeNext",
-    "target": "ES2020",
+    // "module": "NodeNext",
+    // "target": "ES2020",
+  
+    "module": "commonjs",
+    "target": "es2019",
     "rootDir": "./src",
     "outDir": "./dist",
     "esModuleInterop": true,
@@ -44,5 +50,7 @@
     "allowJs": true,
     // "emitDeclarationOnly": true,
     // "allowImportingTsExtensions": true,
-  }
+
+  },
+  "include": ["src"]
 }
