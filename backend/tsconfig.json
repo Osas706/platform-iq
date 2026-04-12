@@ -42,7 +42,7 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
     "allowJs": true,
-    "emitDeclarationOnly": true,
-    "allowImportingTsExtensions": true,
+    // "emitDeclarationOnly": true,
+    // "allowImportingTsExtensions": true,
   }
 }
