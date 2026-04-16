@@ -6,6 +6,7 @@ import { serve } from "inngest/express";
 import { functions, inngest } from "./lib/inngest";
 import { clerkMiddleware } from "@clerk/express";
 import { protectRoute } from "./middlewares/protectRoute";
+import chatRoutes from "./routes/chatRoutes";
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(clerkMiddleware()); // this adds auth field to request object i.e req.au
 // };
 
 app.use("/api/inngest", serve({client: inngest, functions: functions}))
+app.use("/api/chat", chatRoutes);
 
 app.get("/health", protectRoute, (req: Request, res: Response) => {
   res.status(200).json({ message: "Sucesss, Api running" });
