@@ -27,7 +27,7 @@ function Home() {
             </div>
 
             <div className="flex flex-col">
-              <span className="font-black text-xl text-black font-mono tracking-wider">
+              <span className="font-black text-lg md:text-xl text-black font-mono">
                 Platform IQ
               </span>
               <span className="text-xs text-black/60 font-medium -mt-1">Code Together</span>
@@ -36,7 +36,7 @@ function Home() {
 
           {/* AUTH BTN */}
           <SignInButton mode="modal">
-            <button className="group px-6 py-3 bg-black rounded-xl text-white font-semibold text-sm shadow-sm hover:bg-black/90 transition-all duration-200 hover:scale-105 flex items-center gap-2">
+            <button className="group px-3 md:px-6 py-1.5 md:py-3 bg-black rounded-xl text-white font-semibold text-sm shadow-sm hover:bg-black/90 transition-all duration-200 hover:scale-105 flex items-center gap-2">
               <span>Get Started</span>
               <ArrowRightIcon className="size-4 group-hover:translate-x-0.5 transition-transform" />
             </button>
@@ -84,31 +84,31 @@ function Home() {
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-4">
               <SignInButton mode="modal">
-                <button className="btn btn-neutral btn-lg">
+                <button className="btn btn-neutral md:btn-lg">
                   Start Coding Now
                   <ArrowRightIcon className="size-5" />
                 </button>
               </SignInButton>
 
-              <button className="btn btn-outline btn-lg">
+              <button className="btn btn-outline md:btn-lg">
                 <VideoIcon className="size-5" />
                 Watch Demo
               </button>
             </div>
 
             {/* STATS */}
-            <div className="stats stats-horizontal bg-white border border-black/10 shadow-sm">
+            <div className="stats stats-horizontal px-0 border border-black/10 shadow-sm">
               <div className="stat">
-                <div className="stat-value text-black">10K+</div>
-                <div className="stat-title">Active Users</div>
+                <div className="stat-value text-3xl text-black">10K+</div>
+                <div className="text-gray-500 text-xs md:text-sm">Active Users</div>
               </div>
               <div className="stat">
-                <div className="stat-value text-black">50K+</div>
-                <div className="stat-title">Sessions</div>
+                <div className="stat-value  text-3xl text-black">50K+</div>
+                <div className="text-gray-500  text-xs md:text-sm">Sessions</div>
               </div>
               <div className="stat">
-                <div className="stat-value text-black">99.9%</div>
-                <div className="stat-title">Uptime</div>
+                <div className="stat-value text-3xl text-black">99%</div>
+                <div className="text-gray-500  text-xs md:text-sm">Uptime</div>
               </div>
             </div>
           </div>
@@ -117,13 +117,13 @@ function Home() {
           <img
             src="/hero.png"
             alt="CodeCollab Platform"
-            className="w-full h-auto rounded-3xl grayscale hover:scale-105 transition-transform duration-500"
+            className="w-full h-auto bg-red-500 md:bg-transparent rounded-3xl grayscale hover:scale-105 transition-transform duration-500"
           />
         </div>
       </div>
 
       {/* FEATURES SECTION */}
-      <div className="max-w-7xl mx-auto px-4 py-20">
+      <div className="max-w-7xl mx-auto px-4  py-5 md:py-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">
             Everything You Need to <span className="text-black font-mono">Succeed</span>
