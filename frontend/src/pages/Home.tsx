@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import {
   ArrowRightIcon,
+  Bot,
   CheckIcon,
   Code2Icon,
   SparklesIcon,
@@ -23,7 +24,7 @@ function Home() {
             className="flex items-center gap-3 hover:scale-105 transition-transform duration-200"
           >
             <div className="size-10 rounded-xl bg-black flex items-center justify-center shadow-sm">
-              <SparklesIcon className="size-6 text-white" />
+              <Bot className="size-6 text-white" />
             </div>
 
             <div className="flex flex-col">
