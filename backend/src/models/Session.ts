@@ -1,6 +1,15 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Types } from "mongoose";
 
-const sessionSchema = new mongoose.Schema(
+export interface ISession extends Document {
+  problemTitle: string;
+  difficulty: string;
+  host: Types.ObjectId;
+  participants: Types.ObjectId[];
+  status: "active" | "completed";
+  callId: string;
+}
+
+const sessionSchema = new mongoose.Schema<ISession>(
   {
     problemTitle: {
       type: String,
@@ -14,7 +23,7 @@ const sessionSchema = new mongoose.Schema(
     host: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      default: "",
+      required: true,
     },
     participants: {
       type: [mongoose.Schema.Types.ObjectId],
@@ -35,6 +44,6 @@ const sessionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Session = mongoose.model("Session", sessionSchema);
+const Session = mongoose.model<ISession>("Session", sessionSchema);
 
 export default Session;
