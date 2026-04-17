@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 
 import { PROBLEMS } from "../data/problems";
-import { ChevronRightIcon, Code2Icon } from "lucide-react";
+import { Code2Icon, SquareArrowOutUpRight } from "lucide-react";
 
 import Navbar from "../features/Navbar";
 import { getDifficultyBadgeClass } from "../lib/utilis";
@@ -74,8 +74,7 @@ function Problems() {
                   {/* RIGHT SIDE */}
 
                   <div className="flex items-center gap-1 text-black/80">
-                    <span className="font-medium">Solve</span>
-                    <ChevronRightIcon className="size-5" />
+                    <SquareArrowOutUpRight className="size-5" />
                   </div>
                 </div>
               </div>
