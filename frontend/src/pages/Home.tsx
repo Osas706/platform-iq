@@ -97,7 +97,7 @@ function Home() {
             </div>
 
             {/* STATS */}
-            <div className="stats stats-vertical lg:stats-horizontal bg-white border border-black/10 shadow-sm">
+            <div className="stats stats-horizontal bg-white border border-black/10 shadow-sm">
               <div className="stat">
                 <div className="stat-value text-black">10K+</div>
                 <div className="stat-title">Active Users</div>
@@ -117,7 +117,7 @@ function Home() {
           <img
             src="/hero.png"
             alt="CodeCollab Platform"
-            className="w-full h-auto rounded-3xl shadow-xl border border-black/10 hover:scale-105 transition-transform duration-500"
+            className="w-full h-auto rounded-3xl grayscale hover:scale-105 transition-transform duration-500"
           />
         </div>
       </div>
