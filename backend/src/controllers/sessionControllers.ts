@@ -116,6 +116,45 @@ export const getSessionById = async (req: Request, res: Response) => {
 // joinSession controller
 export const joinSession = async (req: Request, res: Response) => {
   try {
+    const { id } = req.params;
+    const userId = req.user?._id;
+    const userObjectId = new Types.ObjectId(userId);
+
+    const clerkId = req.user?.clerkId;
+
+    const session = await Session.findById(id);
+
+    if (!session) return res.status(404).json({success: false, message: "Session not found" });
+
+    if (session.status !== "active") {
+      return res.status(400).json({ success: false, message: "Cannot join a completed session" });
+    };
+
+    const alreadyJoined = session.participants.some(
+      (id) => id.toString() === userObjectId.toString()
+    );
+    if (alreadyJoined) {
+      return res.status(400).json({ message: "Already joined" });
+    };
+
+    if (session.host.toString() === userObjectId.toString()) {
+      return res.status(400).json({ success: false, message: "Host cannot join their own session as participant" });
+    };
+
+    // check if session is already full - has a participant
+    if (session.participants.length >= 1) return res.status(409).json({ message: "Session is full" });
+
+    session.participants.push(userObjectId);
+    await session.save();
+
+    const channel = chatClient.channel("messaging", session.callId);
+
+    if (!clerkId) {
+      throw new Error("User not authenticated");
+    };
+    await channel.addMembers([clerkId]);
+
+    res.status(200).json({ session });
 
   } catch (error) {
     console.error("Error in joinSession controller", error);
