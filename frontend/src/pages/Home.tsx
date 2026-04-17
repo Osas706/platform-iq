@@ -4,7 +4,6 @@ import {
   Bot,
   CheckIcon,
   Code2Icon,
-  SparklesIcon,
   UsersIcon,
   VideoIcon,
   ZapIcon,
