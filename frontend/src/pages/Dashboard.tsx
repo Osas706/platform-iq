@@ -1,14 +1,13 @@
-import Navbar from "../features/Navbar"
-
+import Navbar from "../features/Navbar";
 
 const Dashboard = () => {
   return (
     <div>
-        <div className="min-h-screen bg-base-300">
-          <Navbar />
-        </ div >
-    </ div>
-  )
-}
+      <div className="min-h-screen bg-base-300">
+        <Navbar />
+      </div>
+    </div>
+  );
+};
 
-export default Dashboard
+export default Dashboard;
