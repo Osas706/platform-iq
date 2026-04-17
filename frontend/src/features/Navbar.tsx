@@ -1,5 +1,5 @@
 import { UserButton } from "@clerk/react";
-import { BookOpenIcon, LayoutDashboardIcon, SparklesIcon } from "lucide-react";
+import { Bug, LayoutDashboardIcon, SparklesIcon } from "lucide-react";
 import { NavLink, Link } from "react-router";
 
 function Navbar() {
@@ -12,11 +12,11 @@ function Navbar() {
           className="group flex items-center gap-3 hover:scale-105 transition-transform duration-200"
         >
           <div className="size-10 rounded-xl bg-black flex items-center justify-center shadow-sm">
-            <SparklesIcon className="size-6 text-white" />
+            <SparklesIcon className="size-5 md:size-6 text-white" />
           </div>
 
           <div className="flex flex-col">
-            <span className="font-black text-xl text-black font-mono tracking-wider">
+            <span className="font-black text-lg md:text-xl text-black font-mono tracking-wider">
               Platform IQ
             </span>
             <span className="text-xs text-black/60 font-medium -mt-1">
@@ -30,7 +30,7 @@ function Navbar() {
           <NavLink
             to="/problems"
             className={({ isActive } : { isActive: boolean }) =>
-              `px-4 py-2.5 rounded-lg transition-all duration-200 ${
+              `px-2 md:px-4 py-2.5 rounded-lg transition-all duration-200 ${
                 isActive
                   ? "bg-black text-white"
                   : "hover:bg-black/5 text-black/70 hover:text-black"
@@ -38,7 +38,7 @@ function Navbar() {
             }
           >
             <div className="flex items-center gap-x-2.5">
-              <BookOpenIcon className="size-4" />
+              <Bug className="size-4" />
               <span className="font-medium hidden sm:inline">Problems</span>
             </div>
           </NavLink>
@@ -47,7 +47,7 @@ function Navbar() {
           <NavLink
             to="/dashboard"
             className={({ isActive } : { isActive: boolean }) =>
-              `px-4 py-2.5 rounded-lg transition-all duration-200 ${
+              `px-2 md:px-4 py-2.5 rounded-lg transition-all duration-200 ${
                 isActive
                   ? "bg-black text-white"
                   : "hover:bg-black/5 text-black/70 hover:text-black"
@@ -60,7 +60,7 @@ function Navbar() {
             </div>
           </NavLink>
 
-          <div className="ml-4 mt-2">
+          <div className="md:ml-4 mt-2">
             <UserButton />
           </div>
         </div>
