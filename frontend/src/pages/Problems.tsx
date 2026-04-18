@@ -6,8 +6,20 @@ import { Code2Icon, SquareArrowOutUpRight } from "lucide-react";
 import Navbar from "../features/Navbar";
 import { getDifficultyBadgeClass } from "../lib/utilis";
 
+type ProblemListItem = {
+  id: string;
+  title: string;
+  difficulty: string;
+  category: string;
+  description: {
+    text: string;
+  };
+};
+
 function Problems() {
-  const problems = Object.values(PROBLEMS);
+  const problems = Object.values(
+    PROBLEMS as Record<string, ProblemListItem>,
+  ) as ProblemListItem[];
 
   const easyProblemsCount = problems.filter(
     (p) => p.difficulty === "Easy",

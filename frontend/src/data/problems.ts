@@ -1,4 +1,4 @@
-export const PROBLEMS = {
+export const PROBLEMS: any = {
   "two-sum": {
     id: "two-sum",
     title: "Two Sum",
