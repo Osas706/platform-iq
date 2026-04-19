@@ -1,4 +1,4 @@
-// import Editor from "@monaco-editor/react";
+import Editor from "@monaco-editor/react";
 import { Loader2Icon, PlayIcon } from "lucide-react";
 import type { ChangeEvent } from "react";
 import { LANGUAGE_CONFIG } from "../../data/problems";
@@ -10,7 +10,7 @@ type CodeEditorPanelProps = {
   code: string;
   isRunning: boolean;
   onLanguageChange: (e: ChangeEvent<HTMLSelectElement>) => void;
-  onCodeChange: (value: string) => void;
+  onCodeChange: (value: string | any) => void;
   onRunCode: () => void;
 };
 
@@ -70,20 +70,20 @@ function CodeEditorPanel({
           className="w-full h-full rounded-xl border border-black/10 bg-white p-4 font-mono text-sm text-black outline-none focus:border-black/30"
           spellCheck={false}
         />
-        {/* <Editor
+        <Editor
           height={"100%"}
           language={LANGUAGE_CONFIG[selectedLanguage].monacoLang}
           value={code}
           onChange={onCodeChange}
-          theme="vs-dark"
+          theme="light"
           options={{
-            fontSize: 16,
+            fontSize: 14,
             lineNumbers: "on",
             scrollBeyondLastLine: false,
             automaticLayout: true,
             minimap: { enabled: false },
           }}
-        /> */}
+        />
       </div>
     </div>
   );
