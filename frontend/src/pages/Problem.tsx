@@ -157,7 +157,7 @@ const Problem = () => {
           >
             <Group orientation="vertical">
               {/* Top panel - Code editor */}
-              <Panel defaultSize={70} minSize={30} className="bg-white">
+              <Panel defaultSize={50} minSize={30} className="bg-white">
                 <CodeEditorPanel
                   selectedLanguage={selectedLanguage}
                   code={code}
