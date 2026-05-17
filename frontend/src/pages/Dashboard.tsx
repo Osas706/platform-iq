@@ -5,6 +5,8 @@ const Dashboard = () => {
     <div>
       <div className="min-h-screen bg-base-300">
         <Navbar />
+
+
       </div>
     </div>
   );

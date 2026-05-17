@@ -7,7 +7,7 @@ import { Panel, Group, Separator } from "react-resizable-panels";
 import ProblemDescription from "../features/problem/ProblemDescription";
 import CodeEditorPanel from "../features/problem/CodeEditorPanel";
 import OutputPanel from "../features/problem/OutputPanel";
-import { executeCode, type ExecuteCodeResult } from "../lib/executeCode";
+import { executeCode, type ExecuteCodeResult } from "../hooks/executeCode";
 import toast from "react-hot-toast";
 import confetti from "canvas-confetti";
 
