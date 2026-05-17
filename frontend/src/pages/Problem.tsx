@@ -1,12 +1,13 @@
 import { useNavigate, useParams } from "react-router";
 import Navbar from "../features/Navbar";
 import { useEffect, useState } from "react";
+import { useAuth } from "@clerk/react";
 import { PROBLEMS } from "../data/problems";
 import { Panel, Group, Separator } from "react-resizable-panels";
 import ProblemDescription from "../features/problem/ProblemDescription";
 import CodeEditorPanel from "../features/problem/CodeEditorPanel";
 import OutputPanel from "../features/problem/OutputPanel";
-import { executeCode } from "../lib/piston";
+import { executeCode, type ExecuteCodeResult } from "../lib/executeCode";
 import toast from "react-hot-toast";
 import confetti from "canvas-confetti";
 
@@ -15,6 +16,7 @@ const MOBILE_BREAKPOINT = 768;
 const Problem = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { getToken } = useAuth();
 
   const [currentProblemId, setCurrentProblemId] = useState("two-sum");
   const [selectedLanguage, setSelectedLanguage] = useState< "javascript" | "java" | "python">("javascript");
@@ -23,7 +25,7 @@ const Problem = () => {
     PROBLEMS[currentProblemId].starterCode.javascript,
   );
 
-  const [output, setOutput] = useState(null);
+  const [output, setOutput] = useState<ExecuteCodeResult | null>(null);
   const [isRunning, setIsRunning] = useState(false);
   const [isMobile, setIsMobile] = useState(
     () => window.innerWidth < MOBILE_BREAKPOINT,
@@ -100,28 +102,39 @@ const Problem = () => {
     return normalizedActual == normalizedExpected;
   };
 
+  // handle run code
   const handleRunCode = async () => {
     setIsRunning(true);
     setOutput(null);
 
-    const result = await executeCode(selectedLanguage, code);
-    setOutput(result as any);
-    setIsRunning(false);
+    try {
+      const token = await getToken();
+      const result = await executeCode(selectedLanguage, code, token);
+      setOutput(result);
 
-    // check if code executed successfully and matches expected output
+      if (result.success) {
+        const expectedOutput = currentProblem.expectedOutput[selectedLanguage];
+        const testsPassed = checkIfTestsPassed(result.output, expectedOutput);
 
-    if (result.success) {
-      const expectedOutput = currentProblem.expectedOutput[selectedLanguage];
-      const testsPassed = checkIfTestsPassed(result.output, expectedOutput);
-
-      if (testsPassed) {
-        triggerConfetti();
-        toast.success("All tests passed! Great job!");
+        if (testsPassed) {
+          triggerConfetti();
+          toast.success("All tests passed! Great job!");
+        } else {
+          toast.error("Tests failed. Check your output!");
+        }
       } else {
-        toast.error("Tests failed. Check your output!");
+        toast.error("Code execution failed!");
+        console.log(result);
       }
-    } else {
+    } catch {
+      const failedResult: ExecuteCodeResult = {
+        success: false,
+        error: "Code execution failed!",
+      };
+      setOutput(failedResult);
       toast.error("Code execution failed!");
+    } finally {
+      setIsRunning(false);
     }
   };
 
@@ -157,7 +170,7 @@ const Problem = () => {
           >
             <Group orientation="vertical">
               {/* Top panel - Code editor */}
-              <Panel defaultSize={50} minSize={30} className="bg-white">
+              <Panel defaultSize={50} minSize={30} className="bg-gray-100">
                 <CodeEditorPanel
                   selectedLanguage={selectedLanguage}
                   code={code}
@@ -172,7 +185,7 @@ const Problem = () => {
 
               {/* Bottom panel - Output Panel*/}
 
-              <Panel defaultSize={30} minSize={30} className="bg-white">
+              <Panel defaultSize={30} minSize={30} className="bg-gray-200">
                 <OutputPanel output={output} />
               </Panel>
             </Group>

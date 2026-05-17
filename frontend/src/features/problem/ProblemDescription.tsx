@@ -33,12 +33,12 @@ function ProblemDescription({
   allProblems,
 }: ProblemDescriptionProps) {
   return (
-    <div className="h-full overflow-y-auto bg-white text-black">
+    <div className="h-full overflow-y-auto bg-gray-50 text-black">
       {/* HEADER SECTION */}
-      <div className="p-6 bg-white border-b border-black/10">
+      <div className="p-6 bg-gray-50 border-b border-black/10">
         <div className="flex items-start justify-between mb-3">
           <h1 className="text-3xl font-bold text-black">{problem.title}</h1>
-          <span className={`badge ${getDifficultyBadgeClass(problem.difficulty)}`}>
+          <span className={`text-sm rounded-md py-0.5 ${getDifficultyBadgeClass(problem.difficulty)}`}>
             {problem.difficulty}
           </span>
         </div>
@@ -47,7 +47,7 @@ function ProblemDescription({
         {/* Problem selector */}
         <div className="mt-4">
           <select
-            className="select select-sm w-full bg-white border-black/20 text-black"
+            className="select select-sm w-full bg-gray-50 border-black/20 text-black"
             value={currentProblemId}
             onChange={(e) => onProblemChange(e.target.value)}
           >
@@ -62,7 +62,7 @@ function ProblemDescription({
 
       <div className="p-6 space-y-6">
         {/* PROBLEM DESC */}
-        <div className="bg-white rounded-xl shadow-sm p-5 border border-black/10">
+        <div className="bg-gray-50 rounded-xl shadow-sm p-5 border border-black/10">
           <h2 className="text-xl font-bold text-black">Description</h2>
 
           <div className="space-y-3 text-base leading-relaxed">
@@ -76,7 +76,7 @@ function ProblemDescription({
         </div>
 
         {/* EXAMPLES SECTION */}
-        <div className="bg-white rounded-xl shadow-sm p-5 border border-black/10">
+        <div className="bg-gray-50 rounded-xl shadow-sm p-5 border border-black/10">
           <h2 className="text-xl font-bold mb-4 text-black">Examples</h2>
           <div className="space-y-4">
             {problem.examples.map((example, idx) => (
@@ -108,7 +108,7 @@ function ProblemDescription({
         </div>
 
         {/* CONSTRAINTS */}
-        <div className="bg-white rounded-xl shadow-sm p-5 border border-black/10">
+        <div className="bg-gray-50 rounded-xl shadow-sm p-5 border border-black/10">
           <h2 className="text-xl font-bold mb-4 text-black">Constraints</h2>
           <ul className="space-y-2 text-black/90">
             {problem.constraints.map((constraint, idx) => (

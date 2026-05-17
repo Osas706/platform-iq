@@ -8,12 +8,28 @@ import { clerkMiddleware } from "@clerk/express";
 import { protectRoute } from "./middlewares/protectRoute";
 import chatRoutes from "./routes/chatRoutes";
 import sessionRoutes from "./routes/sessionRoutes";
+import aiRoutes from "./routes/aiRoutes";
 
 const app = express();
 
+const clientOrigin = ENV.CLIENT_URL?.replace(/\/$/, "") ?? "";
+
 // middlewares
 app.use(express.json());
-app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
+app.use(
+  cors({
+    origin(origin, callback) {
+      // Reflect the request origin so it matches exactly (avoids trailing-slash mismatches)
+      if (!origin || origin.replace(/\/$/, "") === clientOrigin) {
+        callback(null, origin ?? clientOrigin);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 app.use(clerkMiddleware()); // this adds auth field to request object i.e req.auth
 
 // make app ready for deployment
@@ -30,6 +46,7 @@ app.use(clerkMiddleware()); // this adds auth field to request object i.e req.au
 app.use("/api/inngest", serve({client: inngest, functions: functions}))
 app.use("/api/chat", chatRoutes);
 app.use("/api/sessions", sessionRoutes);
+app.use("/api/ai", aiRoutes);
 
 app.get("/health", protectRoute, (req: Request, res: Response) => {
   res.status(200).json({ message: "Sucesss, Api running" });

@@ -10,8 +10,8 @@ type OutputPanelProps = {
 
 function OutputPanel({ output }: OutputPanelProps) {
   return (
-    <div className="h-full bg-white text-black flex flex-col">
-      <div className="px-4 py-3 bg-white border-b border-black/10 font-semibold text-sm">
+    <div className="h-full bg-gray-200 text-black flex flex-col border border-gray-300">
+      <div className="px-4 py-3 bg-gray-200 border-b border-gray-300 font-semibold text-sm">
         Output
       </div>
       <div className="flex-1 overflow-auto p-4">
