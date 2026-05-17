@@ -1,4 +1,5 @@
 import {  MailIcon } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 function Footer() {
   return (
@@ -6,6 +7,11 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <p className="text-base font-semibold text-black">Platform IQ</p>
+          <p className="text-xs text-black/70 max-w-[300px] md:max-w-md mt-1">
+            Collaborate live, solve problems together, and master technical interviews in real time.
+            Built for seamless pair programming and interactive coding sessions.
+          </p>
+
           <a
             href="mailto:hello@platformiq.com"
             className="mt-1 inline-flex items-center gap-2 text-sm text-black/70 hover:text-black transition-colors"
@@ -22,8 +28,7 @@ function Footer() {
             rel="noreferrer"
             className="inline-flex items-center gap-2 hover:text-black transition-colors"
           >
-            {/* <Github className="size-4" /> */}
-            GitHub
+            <FaGithub className="size-6" />
           </a>
           <a
             href="https://linkedin.com"
@@ -31,8 +36,7 @@ function Footer() {
             rel="noreferrer"
             className="inline-flex items-center gap-2 hover:text-black transition-colors"
           >
-            {/* <Linkedin className="size-4" /> */}
-            LinkedIn
+            <FaLinkedin className="size-6" />
           </a>
         </div>
       </div>
