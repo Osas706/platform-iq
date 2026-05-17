@@ -23,8 +23,8 @@ function CodeEditorPanel({
   onRunCode,
 }: CodeEditorPanelProps) {
   return (
-    <div className="h-full bg-white text-black flex flex-col">
-      <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-black/10">
+    <div className="h-full bg-gray-100 text-black flex flex-col border border-gray-300">
+      <div className="flex items-center justify-between px-4 py-3 bg-gray-100 border-b border-black/10">
         <div className="flex items-center gap-3">
           <img
             src={LANGUAGE_CONFIG[selectedLanguage].icon}
@@ -32,7 +32,7 @@ function CodeEditorPanel({
             className="size-6"
           />
           <select
-            className="select select-sm bg-white border-black/20 text-black"
+            className="select select-sm bg-gray-100 border-black/20 text-black"
             value={selectedLanguage}
             onChange={onLanguageChange}
           >
@@ -63,11 +63,11 @@ function CodeEditorPanel({
         </button>
       </div>
 
-      <div className="flex-1 p-3 bg-white">
+      <div className="flex-1 p-3 bg-gray-100">
         <textarea
           value={code}
           onChange={(e) => onCodeChange(e.target.value)}
-          className="w-full h-full rounded-xl border border-black/10 bg-white p-4 font-mono text-sm text-black outline-none focus:border-black/30"
+          className="w-full h-full rounded-xl border border-black/10 bg-gray-100 p-4 font-mono text-sm text-black outline-none focus:border-black/30"
           spellCheck={false}
         />
         <Editor
