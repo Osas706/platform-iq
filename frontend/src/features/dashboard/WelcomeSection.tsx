@@ -5,7 +5,7 @@ function WelcomeSection({ onCreateSession }: { onCreateSession: () => void }) {
   const { user } = useUser();
 
   return (
-    <div className="relative overflow-hidden bg-white">
+    <div className="relative overflow-hidden bg-gray-00">
       <div className="relative max-w-7xl mx-auto px-4 py-10 md:px-6 md:py-16">
         <div className="flex flex-col gap-6 justify-center items-center md:flex-row md:justify-between">
           <div className="">
