@@ -21,14 +21,14 @@ function ActiveSessions({
   isUserInSession: (session: any) => boolean;
 }) {
   return (
-    <div className="lg:col-span-2 card bg-white border border-black/10 shadow-sm h-full">
+    <div className="md:col-span-2 card bg-white border border-black/10 shadow-sm h-full">
       <div className="card-body p-4 md:p-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4 md:mb-6">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-black rounded-xl">
-              <ZapIcon className="size-5 text-white" />
+              <ZapIcon className="size-4 lg:size-5 text-white" />
             </div>
-            <h2 className="text-xl md:text-2xl font-black text-black">
+            <h2 className="text-xl lg:text-2xl font-black text-black">
               Live Sessions
             </h2>
           </div>
@@ -50,13 +50,13 @@ function ActiveSessions({
             sessions.map((session) => (
               <div
                 key={session._id}
-                className="rounded-xl border border-black/10 bg-gray-50 hover:border-black/20 transition-colors"
+                className="border-b border-b-gray-300 hover:border-b-2 hover:border-gray-500 transition-colors  "
               >
-                <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between md:p-5">
-                  <div className="flex items-start gap-3 sm:gap-4 flex-1 min-w-0">
-                    <div className="relative size-12 md:size-14 shrink-0 rounded-xl bg-black flex items-center justify-center">
-                      <Code2Icon className="size-6 md:size-7 text-white" />
-                      <div className="absolute -top-1 -right-1 size-3 md:size-4 bg-green-500 rounded-full border-2 border-white" />
+                <div className="flex flex-col gap-4 pb-4 pt-1 sm:flex-row sm:items-center sm:justify-between md:pb-5">
+                  <div className="flex items-start gap-3 flex-1 min-w-0">
+                    <div className="relative size-10 md:size-11 lg:size-12 shrink-0 rounded-xl bg-black flex items-center justify-center">
+                      <Code2Icon className="size-5 lg:size-6 text-white" />
+                      <div className="absolute -top-1 -right-1 size-3 lg:size-4 bg-green-500 rounded-full border-2 border-white" />
                     </div>
 
                     <div className="flex-1 min-w-0">
@@ -65,7 +65,7 @@ function ActiveSessions({
                           {session.problem}
                         </h3>
                         <span
-                          className={`text-xs rounded-md  ${getDifficultyBadgeClass(session.difficulty)}`}
+                          className={`text-xs rounded-md font-semibold  ${getDifficultyBadgeClass(session.difficulty)}`}
                         >
                           {session.difficulty.slice(0, 1).toUpperCase() +
                             session.difficulty.slice(1)}
@@ -83,12 +83,13 @@ function ActiveSessions({
                             {session.participant ? "2/2" : "1/2"}
                           </span>
                         </div>
+
                         {session.participant && !isUserInSession(session) ? (
-                          <span className="badge badge-sm bg-red-100 text-red-800 border border-red-300">
+                          <span className="px-2 rounded-md text-xs lg:text-sm font-semibold bg-red-100 text-red-800 border border-red-300">
                             FULL
                           </span>
                         ) : (
-                          <span className="badge badge-sm bg-green-100 text-green-800 border border-green-300">
+                          <span className="px-2 rounded-md text-xs lg:text-sm font-semibold bg-green-100 text-green-800 border border-green-300">
                             OPEN
                           </span>
                         )}
@@ -101,12 +102,12 @@ function ActiveSessions({
                       variant="outline"
                       size="sm"
                       disabled
-                      className="w-full sm:w-auto shrink-0"
+                      className="w-full py-4 sm:w-auto shrink-0"
                     >
                       Full
                     </Button>
                   ) : (
-                    <Button asChild size="sm" className="w-full sm:w-auto shrink-0 gap-2">
+                    <Button asChild size="sm" className="w-full py-4 sm:w-auto shrink-0 gap-2">
                       <Link to={`/session/${session._id}`}>
                         {isUserInSession(session) ? "Rejoin" : "Join"}
                         <ArrowRightIcon className="size-4" />

@@ -18,7 +18,7 @@ const Dashboard = () => {
   const { user } = useUser();
 
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [roomConfig, setRoomConfig] = useState({ problem: "", difficulty: "" });
+  const [roomConfig, setRoomConfig] = useState({ problemTitle: "", difficulty: "" });
 
   const { mutate: createSession, isPending } = useCreateSession();
 
@@ -31,11 +31,11 @@ const Dashboard = () => {
   const recentSessions = recentSessionsData?.sessions || [];
 
   const handleCreateRoom = () => {
-    if (!roomConfig.problem || !roomConfig.difficulty) return;
+    if (!roomConfig.problemTitle || !roomConfig.difficulty) return;
 
     createSession(
       {
-        problem: roomConfig.problem,
+        problemTitle: roomConfig.problemTitle,
         difficulty: roomConfig.difficulty.toLowerCase(),
       },
       {
@@ -63,10 +63,10 @@ const Dashboard = () => {
       <WelcomeSection onCreateSession={() => setShowCreateModal(true)} />
 
       <div className="max-w-7xl mx-auto px-4 pb-10 md:px-6 md:pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           <StatsCards
-            activeSessionsCount={activeSessions.length}
-            recentSessionsCount={recentSessions.length}
+            activeSessionsCount={activeSessions?.length}
+            recentSessionsCount={recentSessions?.length}
           />
 
           <ActiveSessions

@@ -14,7 +14,7 @@ function WelcomeSection({ onCreateSession }: { onCreateSession: () => void }) {
                 <SparklesIcon className="w-5 h-5 md:w-6 md:h-6 text-gray-600" />
               </div>
 
-              <h1 className="text-2xl md:text-4xl font-black text-gray-900">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-black text-gray-900">
                 Welcome back, {user?.firstName || "there"}!
               </h1>
             </div>
@@ -22,10 +22,10 @@ function WelcomeSection({ onCreateSession }: { onCreateSession: () => void }) {
 
           <button
             onClick={onCreateSession}
-            className="group px-6 py-3 md:px-8 md:py-4 bg-gray-900 rounded-2xl transition-all duration-200 hover:bg-gray-700"
+            className="group px-6 py-3 md:px-5 lg:px-8 md:py-4 bg-gray-900 rounded-2xl transition-all duration-200 hover:bg-gray-700"
           >
-            <div className="flex items-center justify-center gap-3 text-white font-bold text-base md:text-lg">
-              <ZapIcon className="w-5 h-5 md:w-6 md:h-6" />
+            <div className="flex items-center justify-center gap-3 md:gap-2 lg:gap-3 text-white font-bold text-base lg:text-lg">
+              <ZapIcon className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
               <span>Create Session</span>
               <ArrowRightIcon className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
             </div>

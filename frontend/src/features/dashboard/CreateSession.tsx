@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select";
 
 type RoomConfig = {
-  problem: string;
+  problemTitle: string;
   difficulty: string;
 };
 
@@ -72,12 +72,12 @@ function CreateSession({
             </label>
 
             <Select
-              value={roomConfig.problem || undefined}
+              value={roomConfig?.problemTitle || undefined}
               onValueChange={(value: string) => {
                 const selectedProblem = problems.find((p) => p.title === value);
                 if (selectedProblem) {
                   setRoomConfig({
-                    problem: value,
+                    problemTitle: value,
                     difficulty: selectedProblem.difficulty,
                   });
                 }
@@ -96,7 +96,7 @@ function CreateSession({
             </Select>
           </div>
 
-          {roomConfig.problem && (
+          {roomConfig?.problemTitle && (
             <div className="flex gap-3 rounded-lg border border-black/10 bg-gray-50 p-4">
               <Code2Icon className="size-5 shrink-0 text-black/70" />
               <div className="space-y-1 text-sm text-black/80">
@@ -104,7 +104,7 @@ function CreateSession({
                 <p>
                   Problem:{" "}
                   <span className="font-medium text-black">
-                    {roomConfig.problem}
+                    {roomConfig.problemTitle}
                   </span>
                 </p>
                 <p>
@@ -118,13 +118,13 @@ function CreateSession({
           )}
         </div>
 
-        <DialogFooter className="gap-2 sm:gap-0">
+        <DialogFooter className="gap-2">
           <Button variant="outline" onClick={onClose} disabled={isCreating}>
             Cancel
           </Button>
           <Button
             onClick={onCreateRoom}
-            disabled={isCreating || !roomConfig.problem}
+            disabled={isCreating || !roomConfig.problemTitle}
             className="gap-2"
           >
             {isCreating ? (
