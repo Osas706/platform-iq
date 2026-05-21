@@ -1,9 +1,24 @@
-import axios from "axios";
 import axiosInstance from "../lib/axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
+
 //  createSession funcs
+// {
+//   "success": true,
+//   "session": {
+//       "problemTitle": "Two Sum",
+//       "difficulty": "easy",
+//       "host": "69dba58162b5326e4d8fd60d",
+//       "participants": null,
+//       "status": "active",
+//       "callId": "session_1779382496689_62vc7j",
+//       "_id": "6a0f38e091733d707e4aeaf9",
+//       "createdAt": "2026-05-21T16:54:56.729Z",
+//       "updatedAt": "2026-05-21T16:54:56.729Z",
+//       "__v": 0
+//   }
+// }
 export const createSession = async (data: any) => {
   const response = await axiosInstance.post("/sessions", data);
   return response.data;

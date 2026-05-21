@@ -8,14 +8,14 @@ function StatsCards({
   recentSessionsCount: number;
 }) {
   return (
-    <div className="lg:col-span-1 grid grid-cols-2 lg:grid-cols-1 gap-4 md:gap-6">
+    <div className="md:col-span-1 grid grid-cols-2 md:grid-cols-1 gap-4 md:gap-6">
       <div className="card bg-white border border-black/10 shadow-sm hover:shadow-md transition-shadow">
         <div className="card-body p-4 md:p-6">
           <div className="flex items-center justify-between mb-3">
             <div className="p-2 md:p-3 bg-black/5 rounded-xl">
               <UsersIcon className="w-5 h-5 md:w-6 md:h-6 text-black" />
             </div>
-            <span className="badge badge-sm bg-green-100 text-green-800 border border-green-300">
+            <span className="px-2 text-sm font-semibold rounded-md bg-green-100 text-green-800 border border-green-300">
               Live
             </span>
           </div>

@@ -43,7 +43,7 @@ function RecentSessions({
               >
                 {session.status === "active" && (
                   <div className="absolute top-3 right-3">
-                    <span className="badge badge-sm bg-green-100 text-green-800 border border-green-300 gap-1">
+                    <span className="text-xs lg:text-sm rounded-md px-2 bg-green-100 text-green-800 border border-green-300 gap-1">
                       <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
                       ACTIVE
                     </span>
@@ -66,7 +66,7 @@ function RecentSessions({
                         {session.problem}
                       </h3>
                       <span
-                        className={`text-xs rounded-md ${getDifficultyBadgeClass(session.difficulty)}`}
+                        className={`text-xs rounded-md px-2 ${getDifficultyBadgeClass(session.difficulty)}`}
                       >
                         {session.difficulty}
                       </span>
