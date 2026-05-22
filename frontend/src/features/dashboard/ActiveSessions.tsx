@@ -80,11 +80,11 @@ function ActiveSessions({
                         <div className="flex items-center gap-1.5">
                           <UsersIcon className="size-3.5 md:size-4" />
                           <span>
-                            {session.participant ? "2/2" : "1/2"}
+                            {session.participants ? "2/2" : "1/2"}
                           </span>
                         </div>
 
-                        {session.participant && !isUserInSession(session) ? (
+                        {session.participants && !isUserInSession(session) ? (
                           <span className="px-2 rounded-md text-xs lg:text-sm font-semibold bg-red-100 text-red-800 border border-red-300">
                             FULL
                           </span>
@@ -97,7 +97,7 @@ function ActiveSessions({
                     </div>
                   </div>
 
-                  {session.participant && !isUserInSession(session) ? (
+                  {session.participants && !isUserInSession(session) ? (
                     <Button
                       variant="outline"
                       size="sm"

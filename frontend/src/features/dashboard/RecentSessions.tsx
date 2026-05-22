@@ -81,8 +81,8 @@ function RecentSessions({
                     <div className="flex items-center gap-2">
                       <UsersIcon className="w-4 h-4 shrink-0" />
                       <span>
-                        {session.participant ? "2" : "1"} participant
-                        {session.participant ? "s" : ""}
+                        {session.participants ? "2" : "1"} participant
+                        {session.participants ? "s" : ""}
                       </span>
                     </div>
                   </div>
