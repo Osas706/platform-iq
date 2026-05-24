@@ -50,10 +50,11 @@ const Dashboard = () => {
   const isUserInSession = (session: any) => {
     if (!user?.id) return false;
 
-    return (
-      session.host?.clerkId === user?.id ||
-      session.participant?.clerkId === user.id
+    const isParticipant = session.participants?.some(
+      (participant: { clerkId?: string }) => participant?.clerkId === user.id,
     );
+
+    return session.host?.clerkId === user.id || isParticipant;
   };
 
   return (

@@ -4,7 +4,7 @@ import { PROBLEMS } from "../data/problems";
 import { Code2Icon, SquareArrowOutUpRight } from "lucide-react";
 
 import Navbar from "../features/Navbar";
-import { getDifficultyBadgeClass } from "../lib/utilis";
+import { getDifficultyBadgeClass } from "@/lib/utils";
 
 type ProblemListItem = {
   id: string;
