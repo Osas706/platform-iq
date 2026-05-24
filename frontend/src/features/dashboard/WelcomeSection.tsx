@@ -7,9 +7,9 @@ function WelcomeSection({ onCreateSession }: { onCreateSession: () => void }) {
   return (
     <div className="relative overflow-hidden bg-gray-00">
       <div className="relative max-w-7xl mx-auto px-4 py-10 md:px-6 md:py-16">
-        <div className="flex flex-col gap-6 justify-center items-center md:flex-row md:justify-between">
+        <div className="flex flex-col gap-3 md:gap-6 justify-center items-center md:flex-row md:justify-between">
           <div className="">
-            <div className="flex items-center gap-3  ">
+            <div className="flex items-center gap-1 md:gap-3  ">
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 flex items-center justify-center shrink-0">
                 <SparklesIcon className="w-5 h-5 md:w-6 md:h-6 text-gray-600" />
               </div>
