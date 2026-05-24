@@ -151,15 +151,28 @@ const Session = () => {
   };
 
   const handleEndSession = () => {
+    if (!id || isEndingSession) return;
+
     if (
-      confirm(
+      !confirm(
         "Are you sure you want to end this session? All participants will be notified.",
       )
     ) {
-      endSessionMutation(id as string, {
-        onSuccess: () => navigate("/dashboard"),
-      });
+      return;
     }
+
+    endSessionMutation(id, {
+      onSuccess: () => navigate("/dashboard"),
+    });
+  };
+
+  const handleLeaveCall = () => {
+    if (isHost) {
+      handleEndSession();
+      return;
+    }
+
+    navigate("/dashboard");
   };
 
   const formatDifficulty = (difficulty?: string) => {
@@ -457,7 +470,11 @@ const Session = () => {
                 <div className="h-full">
                   <StreamVideo client={streamClient}>
                     <StreamCall call={call}>
-                      <VideoCallUI chatClient={chatClient} channel={channel} />
+                      <VideoCallUI
+                        chatClient={chatClient}
+                        channel={channel}
+                        onLeave={handleLeaveCall}
+                      />
                     </StreamCall>
                   </StreamVideo>
                 </div>

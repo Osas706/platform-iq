@@ -124,11 +124,21 @@ export const endSession = async (id: string) => {
 };
 
 export const useEndSession = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ["endSession"],
     mutationFn: endSession,
 
-    onSuccess: () => {
+    onSuccess: (data, sessionId) => {
+      if (data?.session) {
+        queryClient.setQueryData(["session", sessionId], {
+          success: true,
+          session: data.session,
+        });
+      }
+      queryClient.invalidateQueries({ queryKey: ["activeSessions"] });
+      queryClient.invalidateQueries({ queryKey: ["myRecentSessions"] });
       toast.success("Ended session successfully!");
     },
 

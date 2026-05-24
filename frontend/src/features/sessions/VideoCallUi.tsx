@@ -6,7 +6,6 @@ import {
 } from "@stream-io/video-react-sdk";
 import { Loader2Icon, MessageSquareIcon, UsersIcon, XIcon } from "lucide-react";
 import { useState, type CSSProperties } from "react";
-import { useNavigate } from "react-router";
 import {
   Channel,
   Chat,
@@ -23,10 +22,10 @@ import "stream-chat-react/dist/css/index.css";
 type VideoCallUIProps = {
   chatClient: StreamChat | null;
   channel: StreamChannel | null;
+  onLeave: () => void;
 };
 
-function VideoCallUI({ chatClient, channel }: VideoCallUIProps) {
-  const navigate = useNavigate();
+function VideoCallUI({ chatClient, channel, onLeave }: VideoCallUIProps) {
   const { useCallCallingState, useParticipantCount } = useCallStateHooks();
   const callingState = useCallCallingState();
   const participantCount = useParticipantCount();
@@ -94,7 +93,7 @@ function VideoCallUI({ chatClient, channel }: VideoCallUIProps) {
 
         {/* Controls */}
         <div className="bg-white border border-black/10 rounded-xl shadow-sm p-2 sm:p-3 flex justify-center">
-          <CallControls onLeave={() => navigate("/dashboard")} />
+          <CallControls onLeave={onLeave} />
         </div>
       </div>
 

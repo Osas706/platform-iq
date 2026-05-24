@@ -8,6 +8,7 @@ import { clerkMiddleware } from "@clerk/express";
 import { protectRoute } from "./middlewares/protectRoute";
 import chatRoutes from "./routes/chatRoutes";
 import sessionRoutes from "./routes/sessionRoutes";
+import problemRoutes from "./routes/problemRoutes";
 import aiRoutes from "./routes/aiRoutes";
 
 const app = express();
@@ -46,6 +47,7 @@ app.use(clerkMiddleware()); // this adds auth field to request object i.e req.au
 app.use("/api/inngest", serve({client: inngest, functions: functions}))
 app.use("/api/chat", chatRoutes);
 app.use("/api/sessions", sessionRoutes);
+app.use("/api/problems", problemRoutes);
 app.use("/api/ai", aiRoutes);
 
 app.get("/health", protectRoute, (req: Request, res: Response) => {
