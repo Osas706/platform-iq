@@ -1,6 +1,8 @@
 import axiosInstance from "../lib/axios";
-// import toast from "react-hot-toast";
-// import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import { initializeStreamClient } from "@/lib/stream";
+import { StreamChat } from "stream-chat";
 
 // chat stream token func
 export const getStreamToken = async () => {
@@ -8,85 +10,88 @@ export const getStreamToken = async () => {
   return response.data;
 };
 
-// export const useStreamClient = (
-//   session: any,
-//   loadingSession: any,
-//   isHost: any,
-//   isParticipant: any,
-// ) => {
-//   const [streamClient, setStreamClient] = useState(null);
-//   const [call, setCall] = useState(null);
-//   const [chatClient, setChatClient] = useState(null);
-//   const [channel, setChannel] = useState(null);
-//   const [isInitializingCall, setIsInitializingCall] = useState(true);
+export const useStreamClient = (
+  session: any,
+  loadingSession: any,
+  isHost: any,
+  isParticipant: any,
+) => {
+  const [streamClient, setStreamClient] = useState(null);
+  const [call, setCall] = useState(null);
+  const [chatClient, setChatClient] = useState(null);
+  const [channel, setChannel] = useState(null);
+  const [isInitializingCall, setIsInitializingCall] = useState(true);
 
-//   useEffect(() => {
-//     let videoCall: any = null;
-//     let chatClientInstance: any = null;
+  useEffect(() => {
+    let videoCall: any = null;
+    let chatClientInstance: any = null;
 
-//     const initCall = async () => {
-//       if (!session?.callId) return;
-//       if (!isHost && !isParticipant) return;
-//       if (session.status === "completed") return;
+    const initCall = async () => {
+      if (!session?.callId) return;
+      if (!isHost && !isParticipant) return;
+      if (session.status === "completed") return;
 
-//       try {
-//         // const { token, userId, userName, userImage } = await getStreamToken();
-//         // const client = await initializeStreamClient(
-//         //   {
-//         //     id: userId,
-//         //     name: userName,
-//         //     image: userImage,
-//         //   },
-//         //   token
-//         // );
-//         // setStreamClient(client);
-//         // videoCall = client.call("default", session.callId);
-//         // await videoCall.join({ create: true });
-//         // setCall(videoCall);
-//         // const apiKey = import.meta.env.VITE_STREAM_API_KEY;
-//         // chatClientInstance = StreamChat.getInstance(apiKey);
-//         // await chatClientInstance.connectUser(
-//         //   {
-//         //     id: userId,
-//         //     name: userName,
-//         //     image: userImage,
-//         //   },
-//         //   token
-//         // );
-//         // setChatClient(chatClientInstance);
-//         // const chatChannel = chatClientInstance.channel("messaging", session.callId);
-//         // await chatChannel.watch();
-//         // setChannel(chatChannel);
-//       } catch (error) {
-//         toast.error("Failed to join video call");
-//         console.error("Error init call", error);
-//       } finally {
-//         setIsInitializingCall(false);
-//       }
-//     };
+      try {
+        const { token, userId, userName, userImage } = await getStreamToken();
+        const client = await initializeStreamClient(
+          {
+            id: userId,
+            name: userName,
+            image: userImage,
+          },
+          token
+        );
+        setStreamClient(client);
 
-//     if (session && !loadingSession) initCall();
+        videoCall = client.call("default", session.callId);
+        await videoCall.join({ create: true });
+        setCall(videoCall);
 
-//     // cleanup - performance reasons
-//     return () => {
-//       // iife
-//       (async () => {
-//         try {
-//           // if (videoCall) await videoCall.leave();
-//           // if (chatClientInstance) await chatClientInstance.disconnectUser();
-//           // await disconnectStreamClient();
-//         } catch (error) {
-//           console.error("Cleanup error:", error);
-//         }
-//       })();
-//     };
-//   }, [session, loadingSession, isHost, isParticipant]);
+        const apiKey = import.meta.env.VITE_STREAM_API_KEY;
+        chatClientInstance = StreamChat.getInstance(apiKey);
+        await chatClientInstance.connectUser(
+          {
+            id: userId,
+            name: userName,
+            image: userImage,
+          },
+          token
+        );
+        setChatClient(chatClientInstance);
+        const chatChannel = chatClientInstance.channel("messaging", session.callId);
+        await chatChannel.watch();
 
-//   return {
-//     streamClient,
-//     call,
-//     chatClient,
-//     channel,
-//     isInitializingCall,
-//   };
-// };
+        setChannel(chatChannel);
+      } catch (error) {
+        toast.error("Failed to join video call");
+        console.error("Error init call", error);
+      } finally {
+        setIsInitializingCall(false);
+      }
+    };
+
+    if (session && !loadingSession) initCall();
+
+    // cleanup - performance reasons
+    return () => {
+      // iife
+      (async () => {
+        try {
+          // if (videoCall) await videoCall.leave();
+          // if (chatClientInstance) await chatClientInstance.disconnectUser();
+          // await disconnectStreamClient();
+        } catch (error) {
+          console.error("Cleanup error:", error);
+        }
+      })();
+    };
+  }, [session, loadingSession, isHost, isParticipant]);
+
+  return {
+    streamClient,
+    call,
+    chatClient,
+    channel,
+    isInitializingCall,
+  };
+};

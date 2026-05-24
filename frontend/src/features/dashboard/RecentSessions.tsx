@@ -5,7 +5,7 @@ import {
   TrophyIcon,
   LoaderIcon,
 } from "lucide-react";
-import { getDifficultyBadgeClass } from "../../lib/utilis";
+import { getDifficultyBadgeClass } from "@/lib/utils";
 
 function RecentSessions({
   sessions,

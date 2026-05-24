@@ -1,4 +1,4 @@
-import { getDifficultyBadgeClass } from "../../lib/utilis";
+import { getDifficultyBadgeClass } from "@/lib/utils";
 
 type ProblemExample = {
   input: string;
