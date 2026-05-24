@@ -33,8 +33,8 @@ const Session = () => {
   );
 
   // find the problem data based on session problem title
-  const problemData: any = session?.problem
-    ? Object.values(PROBLEMS).find((p: any) => p?.title === session.problem)
+  const problemData: any = session?.problemTitle
+    ? Object.values(PROBLEMS).find((p: any) => p?.title === session.problemTitle)
     : null;
 
   const [selectedLanguage, setSelectedLanguage] = useState("javascript");
