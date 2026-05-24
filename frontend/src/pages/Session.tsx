@@ -15,6 +15,8 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { Panel, Group, Separator } from "react-resizable-panels";
 import { useStreamClient } from "@/hooks/chats";
+import { StreamCall, StreamVideo } from "@stream-io/video-react-sdk";
+import VideoCallUI from "@/features/sessions/VideoCallUi";
 
 const MOBILE_BREAKPOINT = 768;
 
@@ -431,7 +433,7 @@ const Session = () => {
                 </div>
               </div> */}
 
-            <div className="h-full bg-base-200 p-4 overflow-auto">
+            <div className="h-full bg-gray-300 p-4 overflow-auto">
               {isInitializingCall ? (
                 <div className="h-full flex items-center justify-center">
                   <div className="text-center">
@@ -453,11 +455,11 @@ const Session = () => {
                 </div>
               ) : (
                 <div className="h-full">
-                  {/* <StreamVideo client={streamClient}>
+                  <StreamVideo client={streamClient}>
                     <StreamCall call={call}>
                       <VideoCallUI chatClient={chatClient} channel={channel} />
                     </StreamCall>
-                  </StreamVideo> */}
+                  </StreamVideo>
                 </div>
               )}
             </div>
