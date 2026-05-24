@@ -63,7 +63,7 @@ function RecentSessions({
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-bold text-sm md:text-base text-black mb-1 truncate">
-                        {session.problem}
+                        {session.problemTitle}
                       </h3>
                       <span
                         className={`text-xs rounded-md px-2 ${getDifficultyBadgeClass(session.difficulty)}`}
@@ -81,8 +81,8 @@ function RecentSessions({
                     <div className="flex items-center gap-2">
                       <UsersIcon className="w-4 h-4 shrink-0" />
                       <span>
-                        {session.participants ? "2" : "1"} participant
-                        {session.participants ? "s" : ""}
+                        {1 + (session.participants?.length ?? 0)} participant
+                        {(session.participants?.length ?? 0) > 0 ? "s" : ""}
                       </span>
                     </div>
                   </div>

@@ -28,7 +28,7 @@ const sessionSchema = new mongoose.Schema<ISession>(
     participants: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "User",
-      default: null,
+      default: [],
     },
     status: {
       type: String,

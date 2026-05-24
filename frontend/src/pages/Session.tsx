@@ -7,7 +7,7 @@ import {
   useSessionById,
 } from "@/hooks/sessions";
 import { useUser } from "@clerk/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
 const Session = () => {
@@ -20,15 +20,17 @@ const Session = () => {
   const {
     data: sessionData,
     isLoading: loadingSession,
-    refetch,
   } = useSessionById(id as string);
 
   const { mutate: joinSessionMutation } = useJoinSession();
   const { mutate: endSessionMutation } = useEndSession();
+  const hasAttemptedJoin = useRef(false);
 
   const session = sessionData?.session;
   const isHost = session?.host?.clerkId === user?.id;
-  const isParticipant = session?.participant?.clerkId === user?.id;
+  const isParticipant = session?.participants?.some(
+    (participant: { clerkId?: string }) => participant?.clerkId === user?.id,
+  );
 
   // find the problem data based on session problem title
   const problemData: any = session?.problem
@@ -39,15 +41,21 @@ const Session = () => {
   const [code, setCode] = useState( problemData?.starterCode?.[selectedLanguage] || "");
 
 
-  // auto-join session if user is not already a participant and not the host
+  // Auto-join once when the user is a guest who hasn't joined yet.
+  // Do NOT put `session` in deps — useSessionById polls every 5s and returns a
+  // new object reference each time, which would re-fire this effect repeatedly.
   useEffect(() => {
-    if (!session || !user || loadingSession) return;
+    if (loadingSession || !session || !user?.id || !id) return;
     if (isHost || isParticipant) return;
-  
-    joinSessionMutation(id as string, { onSuccess: refetch });
-  
-    // remove the joinSessionMutation, refetch from dependencies to avoid infinite loop
-  }, [session, user, loadingSession, isHost, isParticipant, id]);
+    if (hasAttemptedJoin.current) return;
+
+    hasAttemptedJoin.current = true;
+    joinSessionMutation(id, {
+      onError: () => {
+        hasAttemptedJoin.current = false;
+      },
+    });
+  }, [id, user?.id, loadingSession, isHost, isParticipant, joinSessionMutation]);
   
   // redirect the "participant" when session ends
   useEffect(() => {

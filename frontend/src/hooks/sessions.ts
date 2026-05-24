@@ -1,5 +1,5 @@
 import axiosInstance from "../lib/axios";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 
@@ -93,11 +93,19 @@ export const joinSession = async (id: string) => {
 };
 
 export const useJoinSession = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ["joinSession"],
     mutationFn: joinSession,
 
-    onSuccess: () => {
+    onSuccess: (data, id) => {
+      if (data?.session) {
+        queryClient.setQueryData(["session", id], {
+          success: true,
+          session: data.session,
+        });
+      }
       toast.success("Joined session successfully!");
     },
 

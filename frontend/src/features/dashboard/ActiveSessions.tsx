@@ -47,7 +47,11 @@ function ActiveSessions({
               <LoaderIcon className="size-8 md:size-10 animate-spin text-black/40" />
             </div>
           ) : sessions.length > 0 ? (
-            sessions.map((session) => (
+            sessions.map((session) => {
+              const participantCount = session.participants?.length ?? 0;
+              const isFull = participantCount >= 1;
+
+              return (
               <div
                 key={session._id}
                 className="border-b border-b-gray-300 hover:border-b-2 hover:border-gray-500 transition-colors  "
@@ -62,7 +66,7 @@ function ActiveSessions({
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-wrap items-center gap-2 mb-2">
                         <h3 className="font-bold text-base md:text-lg text-black truncate">
-                          {session.problem}
+                          {session.problemTitle}
                         </h3>
                         <span
                           className={`text-xs rounded-md font-semibold  ${getDifficultyBadgeClass(session.difficulty)}`}
@@ -80,11 +84,11 @@ function ActiveSessions({
                         <div className="flex items-center gap-1.5">
                           <UsersIcon className="size-3.5 md:size-4" />
                           <span>
-                            {session.participants ? "2/2" : "1/2"}
+                            {participantCount + 1}/2
                           </span>
                         </div>
 
-                        {session.participants && !isUserInSession(session) ? (
+                        {isFull && !isUserInSession(session) ? (
                           <span className="px-2 rounded-md text-xs lg:text-sm font-semibold bg-red-100 text-red-800 border border-red-300">
                             FULL
                           </span>
@@ -97,7 +101,7 @@ function ActiveSessions({
                     </div>
                   </div>
 
-                  {session.participants && !isUserInSession(session) ? (
+                  {isFull && !isUserInSession(session) ? (
                     <Button
                       variant="outline"
                       size="sm"
@@ -116,7 +120,8 @@ function ActiveSessions({
                   )}
                 </div>
               </div>
-            ))
+              );
+            })
           ) : (
             <div className="text-center py-12 md:py-16">
               <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 bg-black/5 rounded-2xl md:rounded-3xl flex items-center justify-center">
