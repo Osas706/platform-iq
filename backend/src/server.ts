@@ -13,16 +13,38 @@ import aiRoutes from "./routes/aiRoutes";
 
 const app = express();
 
-const clientOrigin = ENV.CLIENT_URL?.replace(/\/$/, "") ?? "";
+// const clientOrigin = ENV.CLIENT_URL?.replace(/\/$/, "") ?? "";
+
+const allowedOrigins = [
+  ENV.CLIENT_URL?.replace(/\/$/, ""),
+  "http://localhost:5173",
+  "http://localhost:3000",
+].filter(Boolean) as string[];
+
 
 // middlewares
 app.use(express.json());
+// app.use(
+//   cors({
+//     origin(origin, callback) {
+//       // Reflect the request origin so it matches exactly (avoids trailing-slash mismatches)
+//       if (!origin || origin.replace(/\/$/, "") === clientOrigin) {
+//         callback(null, origin ?? clientOrigin);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true,
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   }),
+// );
 app.use(
   cors({
     origin(origin, callback) {
-      // Reflect the request origin so it matches exactly (avoids trailing-slash mismatches)
-      if (!origin || origin.replace(/\/$/, "") === clientOrigin) {
-        callback(null, origin ?? clientOrigin);
+      console.log("Request origin:", origin); // add this
+      console.log("Allowed origins:", allowedOrigins); // add this
+      if (!origin || allowedOrigins.includes(origin.replace(/\/$/, ""))) {
+        callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
       }
@@ -31,6 +53,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
+
 app.use(clerkMiddleware()); // this adds auth field to request object i.e req.auth
 
 // make app ready for deployment
