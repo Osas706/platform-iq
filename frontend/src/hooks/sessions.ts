@@ -1,5 +1,6 @@
 import axiosInstance from "../lib/axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@clerk/react";
 import toast from "react-hot-toast";
 
 
@@ -19,15 +20,23 @@ import toast from "react-hot-toast";
 //       "__v": 0
 //   }
 // }
-export const createSession = async (data: any) => {
-  const response = await axiosInstance.post("/sessions", data);
+export const createSession = async (data: any, token: string | null) => {
+  const response = await axiosInstance.post(
+    "/sessions",
+    data,
+    token ? { headers: { Authorization: `Bearer ${token}` } } : undefined,
+  );
   return response.data;
 };
 
 export const useCreateSession = () => {
+  const { getToken } = useAuth();
   return useMutation({
     mutationKey: ["createSession"],
-    mutationFn: createSession,
+    mutationFn: async (data: any) => {
+      const token = await getToken();
+      return createSession(data, token);
+    },
 
     onSuccess: () => {
       toast.success("Session created successfully!");
@@ -42,42 +51,60 @@ export const useCreateSession = () => {
 };
 
 // active sessions funcs 
-export const getActiveSessions = async () => {
-  const response = await axiosInstance.get("/sessions/active");
+export const getActiveSessions = async (token: string | null) => {
+  const response = await axiosInstance.get("/sessions/active", {
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+  });
   return response.data;
 };
 
 export const useActiveSessions = () => {
+  const { getToken } = useAuth();
   return useQuery({
     queryKey: ["activeSessions"],
-    queryFn: getActiveSessions,
+    queryFn: async () => {
+      const token = await getToken();
+      return getActiveSessions(token);
+    },
   });
 };
 
 // recent sessions funcs 
-export const  getMyRecentSessions = async () => {
-  const response = await axiosInstance.get("/sessions/recent-sessions");
+export const  getMyRecentSessions = async (token: string | null) => {
+  const response = await axiosInstance.get("/sessions/recent-sessions", {
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+  });
   return response.data;
 };
 
 export const   useRecentSessions = () => {
+  const { getToken } = useAuth();
   return useQuery({
     queryKey: ["myRecentSessions"],
-    queryFn: getMyRecentSessions,
+    queryFn: async () => {
+      const token = await getToken();
+      return getMyRecentSessions(token);
+    },
   });
 };
 
 // getSessionById funcs
-export const getSessionById = async (id: string) => {
-  const response = await axiosInstance.get(`/sessions/${id}`);
+export const getSessionById = async (id: string, token: string | null) => {
+  const response = await axiosInstance.get(`/sessions/${id}`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+  });
   return response.data;
 };
 
 export const useSessionById = (id: string) => {
+  const { getToken } = useAuth();
   return useQuery({
     queryKey: ["session", id],
 
-    queryFn: () => getSessionById(id),
+    queryFn: async () => {
+      const token = await getToken();
+      return getSessionById(id, token);
+    },
 
     enabled: !!id,
 
@@ -87,17 +114,25 @@ export const useSessionById = (id: string) => {
 };
 
 //  joinSession funcs
-export const joinSession = async (id: string) => {
-  const response = await axiosInstance.post(`/sessions/${id}/join`);
+export const joinSession = async (id: string, token: string | null) => {
+  const response = await axiosInstance.post(
+    `/sessions/${id}/join`,
+    undefined,
+    token ? { headers: { Authorization: `Bearer ${token}` } } : undefined,
+  );
   return response.data;
 };
 
 export const useJoinSession = () => {
+  const { getToken } = useAuth();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ["joinSession"],
-    mutationFn: joinSession,
+    mutationFn: async (id: string) => {
+      const token = await getToken();
+      return joinSession(id, token);
+    },
 
     onSuccess: (data, id) => {
       if (data?.session) {
@@ -118,17 +153,25 @@ export const useJoinSession = () => {
 };
 
 //  endSession funcs
-export const endSession = async (id: string) => {
-  const response = await axiosInstance.post(`/sessions/${id}/end`);
+export const endSession = async (id: string, token: string | null) => {
+  const response = await axiosInstance.post(
+    `/sessions/${id}/end`,
+    undefined,
+    token ? { headers: { Authorization: `Bearer ${token}` } } : undefined,
+  );
   return response.data;
 };
 
 export const useEndSession = () => {
+  const { getToken } = useAuth();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ["endSession"],
-    mutationFn: endSession,
+    mutationFn: async (id: string) => {
+      const token = await getToken();
+      return endSession(id, token);
+    },
 
     onSuccess: (data, sessionId) => {
       if (data?.session) {
