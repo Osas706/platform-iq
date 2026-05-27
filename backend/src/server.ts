@@ -50,7 +50,7 @@ app.use("/api/sessions", sessionRoutes);
 app.use("/api/problems", problemRoutes);
 app.use("/api/ai", aiRoutes);
 
-app.get("/health", protectRoute, (req: Request, res: Response) => {
+app.get("/health", (req: Request, res: Response) => {
   res.status(200).json({ message: "Sucesss, Api running" });
 });
 
