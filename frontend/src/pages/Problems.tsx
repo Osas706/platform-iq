@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router";
-import { Code2Icon, Loader2Icon, PlusIcon, SquareArrowOutUpRight } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon, Code2Icon, Loader2Icon, PlusIcon, SquareArrowOutUpRight } from "lucide-react";
 import { PROBLEMS } from "@/data/problems";
 import Navbar from "@/features/Navbar";
 import CreateProblemModal from "@/features/problems/CreateProblemModal";
@@ -88,6 +88,7 @@ function ProblemCard({ problem }: ProblemCardProps) {
 }
 
 function Problems() {
+  const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: problemsResponse, isLoading: isLoadingCustom } = useProblems();
   const { mutate: createProblemMutation, isPending: isCreating } =
@@ -125,6 +126,22 @@ function Problems() {
     createProblemMutation(data, {
       onSuccess: () => setIsModalOpen(false),
     });
+  };
+
+  const problemsPerPage = 3;
+  const totalPages = Math.ceil(customProblems.length / problemsPerPage);
+  const indexOfLastProblem = currentPage * problemsPerPage;
+  const indexOfFirstProblem = indexOfLastProblem - problemsPerPage;
+  const currentProblems = allProblems.slice(
+    indexOfFirstProblem,
+    indexOfLastProblem,
+  );
+
+  const handlePreviousPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
   };
 
   return (
@@ -180,7 +197,7 @@ function Problems() {
             </div>
           ) : customProblems.length > 0 ? (
             <div className="space-y-5">
-              {customProblems.map((problem) => (
+              {currentProblems.map((problem) => (
                 <ProblemCard key={`custom-${problem.id}`} problem={problem} />
               ))}
             </div>
@@ -201,10 +218,29 @@ function Problems() {
               </div>
             </div>
           )}
+
+          {/* pagination */}
+          <div className="flex items-center justify-center gap-2 mt-4">
+            <Button disabled={currentPage === 1} variant="outline" className="bg-black text-white py-3 px-2 " onClick={handlePreviousPage}>
+              <ChevronLeftIcon className="size-4" />
+            </Button>
+            <span className="text-sm border py-2 px-3 rounded-full text-black/50 font-semibold">
+              {currentPage}
+            </span>
+            <Button disabled={currentPage >= totalPages} variant="outline" className="bg-black text-white py-3 px-2 " onClick={handleNextPage}>
+              <ChevronRightIcon className="size-4" />
+            </Button>
+          </div>  
         </section>
 
         {/* Stats footer */}
-        <div className="mt-14 card bg-white max-w-2xl mx-auto border border-black/10 shadow-sm">
+        <div className="mt-10 card bg-white">
+          <div className="card-body">
+            <h2 className="text-xl font-bold text-black mb-4">
+              Problem Stats
+            </h2>
+          </div>
+
           <div className="card-body">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
               <div className="flex flex-col p-2 justify-center items-center">

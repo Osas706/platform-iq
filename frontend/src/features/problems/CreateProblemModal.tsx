@@ -111,7 +111,7 @@ function CreateProblemModal({
 
     const payload: CreateProblemInput = {
       ...form,
-      id: form.id.trim().toLowerCase().replace(/\s+/g, "-"),
+      id: form.title.trim().toLowerCase().replace(/\s+/g, "-") + "-" + new Date().getTime(),
       title: form.title.trim(),
       category: form.category.trim(),
       description: {
@@ -181,7 +181,7 @@ function CreateProblemModal({
               Basic Info
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="space-y-1.5">
+              {/* <div className="space-y-1.5">
                 <label className="text-sm font-medium text-black">
                   Problem ID (slug) <span className="text-red-600">*</span>
                 </label>
@@ -191,7 +191,7 @@ function CreateProblemModal({
                   onChange={(e) => updateField("id", e.target.value)}
                   required
                 />
-              </div>
+              </div> */}
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-black">
                   Title <span className="text-red-600">*</span>
