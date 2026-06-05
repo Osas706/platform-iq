@@ -4,8 +4,12 @@ import {
   UsersIcon,
   TrophyIcon,
   LoaderIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
 } from "lucide-react";
+import { useState } from "react";
 import { getDifficultyBadgeClass } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 function RecentSessions({
   sessions,
@@ -14,6 +18,23 @@ function RecentSessions({
   sessions: any[];
   isLoading: boolean;
 }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const sessionsPerPage = 6;
+  const totalPages = Math.ceil(sessions.length / sessionsPerPage);
+  const indexOfLastSession = currentPage * sessionsPerPage;
+  const indexOfFirstSession = indexOfLastSession - sessionsPerPage;
+  const currentSessions = sessions.slice(
+    indexOfFirstSession,
+    indexOfLastSession,
+  );
+
+  const handlePreviousPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
   return (
     <div className="card bg-white border border-black/10 shadow-sm mt-6 md:mt-8">
       <div className="card-body p-4 md:p-6">
@@ -31,8 +52,8 @@ function RecentSessions({
             <div className="col-span-full flex items-center justify-center py-16 md:py-20">
               <LoaderIcon className="w-8 h-8 md:w-10 md:h-10 animate-spin text-black/40" />
             </div>
-          ) : sessions.length > 0 ? (
-            sessions.map((session) => (
+          ) : currentSessions.length > 0 ? (
+            currentSessions.map((session) => (
               <div
                 key={session._id}
                 className={`card relative border shadow-sm transition-colors ${
@@ -111,6 +132,31 @@ function RecentSessions({
               </p>
             </div>
           )}
+        </div>
+
+        {/* pagination */}
+        <div className="flex items-center justify-center gap-2 mt-4">
+          <Button
+            disabled={currentPage === 1}
+            variant="outline"
+            className="bg-black text-white py-3 px-2 "
+            onClick={handlePreviousPage}
+          >
+            <ChevronLeftIcon className="size-4" />
+          </Button>
+          
+          <span className="text-sm border py-2 px-3 rounded-full text-black/50 font-semibold">
+            {currentPage}
+          </span>
+
+          <Button
+            disabled={currentPage >= totalPages}
+            variant="outline"
+            className="bg-black text-white py-3 px-2 "
+            onClick={handleNextPage}
+          >
+            <ChevronRightIcon className="size-4" />
+          </Button>
         </div>
       </div>
     </div>
